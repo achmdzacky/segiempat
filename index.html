@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zacky | Media Geometri Interaktif</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; }
+        body { margin: 0; background: linear-gradient(rgba(15, 23, 42, .95), rgba(15, 23, 42, .95)); color: #e5e7eb; }
+        .navbar { background: rgba(0, 0, 0, .7); backdrop-filter: blur(8px); border-bottom: 1px solid #334155; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; color: #38bdf8; text-decoration: none; }
+        .section { background: rgba(30, 41, 59, .97); border-radius: 18px; padding: 24px; margin-bottom: 30px; box-shadow: 0 12px 25px rgba(0, 0, 0, .45); }
+        .geo-box { background: #020617; border-radius: 16px; padding: 15px; margin-bottom: 15px; border: 1px solid #1e293b; }
+        canvas { background: #fff; border-radius: 12px; padding: 8px; max-width: 100%; cursor: default; border: 2px solid #38bdf8; }
+        .form-check-label { color: #cbd5e1; font-size: 0.9rem; cursor: pointer; }
+        .text-info-custom { color: #38bdf8; font-weight: 600; border-bottom: 1px solid #334155; padding-bottom: 5px; margin-bottom: 10px; }
+        
+        .materi-img { background: #f8fafc; padding: 10px; border-radius: 12px; text-align: center; margin: 10px 0; border: 1px solid #cbd5e1; }
+        .materi-img img { 
+            max-width: 100%; 
+            height: 180px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            display: block;
+            margin: 0 auto 10px auto;
+        }
+        .shape-label { font-weight: bold; color: #1e293b; display: block; font-size: 0.9rem; }
+        
+        .formula-container { background: #0f172a; border: 1px solid #334155; padding: 15px; border-radius: 12px; margin-top: 10px; }
+        .formula-item { margin-bottom: 8px; font-size: 0.95rem; }
+        .formula-item:last-child { margin-bottom: 0; }
+        
+        hr { border-color: #334155; opacity: 0.3; }
+        .slider-label { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #38bdf8; margin-bottom: 8px; }
+        .input-geo { width: 80px; background: #1e293b; border: 1px solid #334155; color: #38bdf8; border-radius: 4px; padding: 2px 5px; font-size: 0.8rem; text-align: center; }
+
+        .activity-card { border-left: 4px solid #38bdf8; background: rgba(30, 41, 59, 0.5); padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .btn-check-ans { background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 6px; padding: 5px 15px; transition: 0.3s; width: 100%; margin-top: 10px; }
+        .btn-check-ans:hover { background: #7dd3fc; }
+        .game-input { background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 6px; padding: 5px; width: 100%; font-size: 0.9rem; }
+        .feedback { font-size: 0.85rem; margin-top: 10px; display: none; padding: 8px; border-radius: 5px; }
+        .correct { background: rgba(74, 222, 128, 0.1); color: #4ade80; border: 1px solid #4ade80; }
+        .wrong { background: rgba(248, 113, 113, 0.1); color: #f87171; border: 1px solid #f87171; }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar fixed-top">
+    <div class="container">
+        <a class="brand" href="#"><i class="fa-solid fa-draw-polygon"></i>Achmad Zacky</a>
+    </div>
+</nav>
+
+<section class="container py-5 mt-5">
+
+    <div class="section">
+        <h2 class="text-info-custom mb-4"><i class="fa-solid fa-book me-2"></i> Materi: Bangun Datar Segiempat</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="geo-box">
+                    <h4 class="text-primary">1. Persegi</h4>
+                    <p class="small text-secondary">Bangun datar yang memiliki 4 sisi sama panjang dan 4 sudut siku-siku.</p>
+                    <div class="materi-img">
+                        <img src="persegi.jpg" alt="Contoh Persegi">
+                        <span class="shape-label">Contoh: Jendela Rumah</span>
+                    </div>
+                    <div class="small mt-3">
+                        <strong class="text-info">Ciri-ciri & Unsur:</strong>
+                        <ul class="ps-3 mb-2">
+                            <li>Memiliki 4 titik sudut (A, B, C, D).</li>
+                            <li>4 sisi sama panjang (\(AB = BC = CD = DA\)).</li>
+                            <li>4 sudut siku-siku (\(90^\circ\)).</li>
+                            <li>Memiliki 2 diagonal yang saling tegak lurus.</li>
+                        </ul>
+                        <strong class="text-warning">Rumus:</strong>
+                        <div class="formula-container">
+                            <div class="formula-item"><span class="text-info">Luas (L)</span> = \(s \times s\)</div>
+                            <div class="formula-item"><span class="text-info">Keliling (K)</span> = \(4 \times s\)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="geo-box">
+                    <h4 class="text-success">2. Persegi Panjang</h4>
+                    <p class="small text-secondary">Memiliki 2 pasang sisi sejajar sama panjang dan 4 sudut siku-siku.</p>
+                    <div class="materi-img">
+                        <img src="persegipanjang.jpg" alt="Contoh Persegi Panjang">
+                        <span class="shape-label">Contoh: Pintu Rumah</span>
+                    </div>
+                    <div class="small mt-3">
+                        <strong class="text-info">Ciri-ciri & Unsur:</strong>
+                        <ul class="ps-3 mb-2">
+                            <li>Sisi yang berhadapan sejajar dan sama panjang.</li>
+                            <li>Memiliki panjang (\(p\)) dan lebar (\(l\)).</li>
+                            <li>4 sudut siku-siku (\(90^\circ\)).</li>
+                            <li>Diagonalnya sama panjang dan berpotongan.</li>
+                        </ul>
+                        <strong class="text-warning">Rumus:</strong>
+                        <div class="formula-container">
+                            <div class="formula-item"><span class="text-info">Luas (L)</span> = \(p \times l\)</div>
+                            <div class="formula-item"><span class="text-info">Keliling (K)</span> = \(2 \times (p + l)\)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="text-info-custom mb-4" style="font-size: 1.5rem;"><i class="fa-solid fa-flask me-2"></i> Eksplorasi Visualisasi Geometri</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="geo-box">
+                    <div class="text-info-custom">Atur Dimensi (cm)</div>
+                    <div class="mb-3">
+                        <div class="slider-label">
+                            <span>Panjang (p)</span>
+                            <div><input type="number" id="numP" class="input-geo" value="15" oninput="syncInputToSlider('P')"> <span class="small">cm</span></div>
+                        </div>
+                        <input type="range" class="form-range" id="rangeP" min="2" max="25" value="15" oninput="syncSliderToInput('P')">
+                    </div>
+                    <div class="mb-3">
+                        <div class="slider-label">
+                            <span>Lebar (l)</span>
+                            <div><input type="number" id="numL" class="input-geo" value="10" oninput="syncInputToSlider('L')"> <span class="small">cm</span></div>
+                        </div>
+                        <input type="range" class="form-range" id="rangeL" min="2" max="18" value="10" oninput="syncSliderToInput('L')">
+                    </div>
+
+                    <div class="text-info-custom mt-4">Kontrol Ruas Garis & Titik</div>
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="checkAB" checked onchange="drawGeo()"><label class="form-check-label">Ruas AB</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="checkBC" checked onchange="drawGeo()"><label class="form-check-label">Ruas BC</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="checkCD" checked onchange="drawGeo()"><label class="form-check-label">Ruas CD</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="checkDA" checked onchange="drawGeo()"><label class="form-check-label">Ruas DA</label></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="ptA" checked onchange="drawGeo()"><label class="form-check-label">Titik A</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="ptB" checked onchange="drawGeo()"><label class="form-check-label">Titik B</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="ptC" checked onchange="drawGeo()"><label class="form-check-label">Titik C</label></div>
+                            <div class="form-check"><input class="form-check-input" type="checkbox" id="ptD" checked onchange="drawGeo()"><label class="form-check-label">Titik D</label></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="checkAC" onchange="drawGeo()"><label class="form-check-label text-warning">Diagonal AC</label></div>
+                    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="checkDB" onchange="drawGeo()"><label class="form-check-label text-warning">Diagonal DB</label></div>
+                </div>
+            </div>
+            <div class="col-md-8 text-center">
+                <div class="geo-box p-3">
+                    <canvas id="geoCanvas" width="550" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="text-info-custom mb-4"><i class="fa-solid fa-tasks me-2"></i> Ruang Aktivitas Siswa</h2>
+        <div class="row g-4">
+            
+            <div class="col-md-6">
+                <div class="geo-box">
+                    <h5 class="text-info"><i class="fa-solid fa-magnifying-glass me-2"></i> Aktivitas 1: Analisis</h5>
+                    <div class="activity-card">
+                        <p class="small">1. Atur p=12 dan l=12. Apakah setiap persegi dapat disebut persegi panjang?</p>
+                        <textarea id="ansAnalisis1" class="game-input" rows="2"></textarea>
+                        <button class="btn-check-ans" onclick="checkAnalisis(1)">Kirim</button>
+                        <div id="fbAnalisis1" class="feedback"></div>
+                    </div>
+                    <div class="activity-card">
+                        <p class="small">2. Jika Diagonal AC dinyalakan, apakah panjangnya lebih besar dari sisi p? Jelaskan!</p>
+                        <textarea id="ansAnalisis2" class="game-input" rows="2"></textarea>
+                        <button class="btn-check-ans" onclick="checkAnalisis(2)">Kirim</button>
+                        <div id="fbAnalisis2" class="feedback"></div>
+                    </div>
+                    <div class="activity-card">
+                        <p class="small">3. Matikan Ruas BC dan DA. Bangun apa yang tersisa? Sebutkan cirinya!</p>
+                        <textarea id="ansAnalisis3" class="game-input" rows="2"></textarea>
+                        <button class="btn-check-ans" onclick="checkAnalisis(3)">Kirim</button>
+                        <div id="fbAnalisis3" class="feedback"></div>
+                    </div>
+                    <div class="activity-card">
+                        <p class="small">4. Apa yang terjadi pada titik koordinat jika nilai panjang (p) diperkecil menjadi 2?</p>
+                        <textarea id="ansAnalisis4" class="game-input" rows="2"></textarea>
+                        <button class="btn-check-ans" onclick="checkAnalisis(4)">Kirim</button>
+                        <div id="fbAnalisis4" class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="geo-box">
+                    <h5 class="text-success"><i class="fa-solid fa-list-check me-2"></i> Aktivitas 2: Kuis Numerasi</h5>
+                    <div class="activity-card">
+                        <p class="small">1. Keliling persegi panjang 60 cm. Jika l=10 cm, maka p adalah...</p>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q1" value="w"> 15 cm</div>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q1" id="q1Correct" value="c"> 20 cm</div>
+                    </div>
+                    <div class="activity-card">
+                        <p class="small">2. Luas persegi adalah 144 cm². Berapa panjang sisinya?</p>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q2" id="q2Correct" value="c"> 12 cm</div>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q2" value="w"> 14 cm</div>
+                    </div>
+                    <div class="activity-card">
+                        <p class="small">3. Jika p=10 dan l=5, berapakah selisih Luas dan Kelilingnya?</p>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q3" id="q3Correct" value="c"> 20</div>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q3" value="w"> 15</div>
+                    </div>
+                    <div class="activity-card">
+                        <p class="small">4. Sebuah lapangan berbentuk persegi dengan keliling 100m. Luasnya adalah...</p>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q4" value="w"> 400 m²</div>
+                        <div class="form-check small"><input class="form-check-input" type="radio" name="q4" id="q4Correct" value="c"> 625 m²</div>
+                    </div>
+                    <button class="btn-check-ans" onclick="checkQuiz()">Periksa Semua Jawaban Kuis</button>
+                    <div id="fbQuiz" class="feedback"></div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="geo-box">
+                    <h5 class="text-warning"><i class="fa-solid fa-gamepad me-2"></i> Game: Misi Detektif GeoSMART</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="activity-card">
+                                <p class="small"><strong>Misi 1:</strong> Buat <strong>Keliling tepat 40 cm</strong>. Masukkan p dan l:</p>
+                                <div class="d-flex gap-2">
+                                    <input type="number" id="mission1P" class="game-input" placeholder="p">
+                                    <input type="number" id="mission1L" class="game-input" placeholder="l">
+                                </div>
+                                <button class="btn-check-ans" onclick="checkMission1()">Lapor Misi 1</button>
+                                <div id="fbMission1" class="feedback"></div>
+                            </div>
+                            <div class="activity-card">
+                                <p class="small"><strong>Misi 2:</strong> Berapakah <strong>Luas</strong> bangun yang tampil di kanvas sekarang?</p>
+                                <input type="number" id="mission2Ans" class="game-input">
+                                <button class="btn-check-ans" onclick="checkMission2()">Lapor Misi 2</button>
+                                <div id="fbMission2" class="feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="activity-card">
+                                <p class="small"><strong>Misi 3:</strong> Cari kombinasi p dan l agar <strong>Luas = Keliling</strong> (Angka sama)!</p>
+                                <div class="d-flex gap-2">
+                                    <input type="number" id="mission3P" class="game-input" placeholder="p">
+                                    <input type="number" id="mission3L" class="game-input" placeholder="l">
+                                </div>
+                                <button class="btn-check-ans" onclick="checkMission3()">Lapor Misi 3</button>
+                                <div id="fbMission3" class="feedback"></div>
+                            </div>
+                            <div class="activity-card">
+                                <p class="small"><strong>Misi 4:</strong> Jika p=20, berapakah <strong>l</strong> agar Luasnya menjadi 100?</p>
+                                <input type="number" id="mission4Ans" class="game-input">
+                                <button class="btn-check-ans" onclick="checkMission4()">Lapor Misi 4</button>
+                                <div id="fbMission4" class="feedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    const canvas = document.getElementById('geoCanvas');
+    const ctx = canvas.getContext('2d');
+    const SCALE = 20; 
+    let valP = 15; 
+    let valL = 10; 
+
+    function syncSliderToInput(type) {
+        if (type === 'P') {
+            valP = parseInt(document.getElementById('rangeP').value);
+            document.getElementById('numP').value = valP;
+        } else {
+            valL = parseInt(document.getElementById('rangeL').value);
+            document.getElementById('numL').value = valL;
+        }
+        drawGeo();
+    }
+
+    function syncInputToSlider(type) {
+        let inputId = type === 'P' ? 'numP' : 'numL';
+        let val = parseInt(document.getElementById(inputId).value) || 0;
+        let finalVal = type === 'P' ? Math.max(2, Math.min(val, 25)) : Math.max(2, Math.min(val, 18));
+        
+        if (type === 'P') valP = finalVal; else valL = finalVal;
+        document.getElementById(type === 'P' ? 'rangeP' : 'rangeL').value = finalVal;
+        drawGeo();
+    }
+
+    function drawGeo() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = "#f1f5f9";
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += SCALE) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke(); }
+        for (let y = 0; y <= canvas.height; y += SCALE) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke(); }
+
+        const drawW = valP * SCALE;
+        const drawH = valL * SCALE;
+        const startX = (canvas.width - drawW) / 2;
+        const startY = (canvas.height - drawH) / 2;
+
+        const pts = {
+            A: { x: startX, y: startY + drawH, label: "A", id: "ptA" },
+            B: { x: startX + drawW, y: startY + drawH, label: "B", id: "ptB" },
+            C: { x: startX + drawW, y: startY, label: "C", id: "ptC" },
+            D: { x: startX, y: startY, label: "D", id: "ptD" }
+        };
+
+        const drawSide = (p1, p2, checkId, color, isDashed = false) => {
+            if (document.getElementById(checkId).checked) {
+                ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 4;
+                ctx.setLineDash(isDashed ? [8, 8] : []);
+                ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+            }
+        };
+
+        drawSide(pts.A, pts.B, "checkAB", "#3b82f6"); 
+        drawSide(pts.B, pts.C, "checkBC", "#10b981"); 
+        drawSide(pts.C, pts.D, "checkCD", "#f59e0b"); 
+        drawSide(pts.D, pts.A, "checkDA", "#ef4444");
+        drawSide(pts.A, pts.C, "checkAC", "#a855f7", true);
+        drawSide(pts.D, pts.B, "checkDB", "#ec4899", true);
+
+        ctx.setLineDash([]);
+        ctx.font = "bold 16px Arial";
+        Object.values(pts).forEach(p => {
+            if (document.getElementById(p.id).checked) {
+                ctx.fillStyle = "#1e293b"; ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = "#0f172a";
+                let xOff = (p.label === "A" || p.label === "D") ? -22 : 12;
+                let yOff = (p.label === "A" || p.label === "B") ? 22 : -10;
+                ctx.fillText(p.label, p.x + xOff, p.y + yOff);
+            }
+        });
+    }
+
+    // LOGIKA AKTIVITAS
+    function checkAnalisis(no) {
+        const fb = document.getElementById('fbAnalisis' + no);
+        const val = document.getElementById('ansAnalisis' + no).value;
+        fb.style.display = "block";
+        if(val.length < 5) {
+            fb.className = "feedback wrong";
+            fb.innerHTML = "Berikan penjelasan yang lebih lengkap!";
+            return;
+        }
+        fb.className = "feedback correct";
+        const msg = ["Bagus! Persegi adalah bentuk khusus persegi panjang.", "Tepat! Sisi miring selalu lebih panjang.", "Benar! Menjadi dua garis sejajar.", "Ya, jarak antar titik mendatar menjadi sangat dekat."];
+        fb.innerHTML = msg[no-1];
+    }
+
+    function checkQuiz() {
+        const fb = document.getElementById('fbQuiz');
+        fb.style.display = "block";
+        let score = 0;
+        if(document.getElementById('q1Correct').checked) score++;
+        if(document.getElementById('q2Correct').checked) score++;
+        if(document.getElementById('q3Correct').checked) score++;
+        if(document.getElementById('q4Correct').checked) score++;
+        
+        fb.className = score === 4 ? "feedback correct" : "feedback wrong";
+        fb.innerHTML = "Skor Anda: " + score + "/4. " + (score === 4 ? "Luar Biasa!" : "Coba cek lagi.");
+    }
+
+    function checkMission1() {
+        const p = parseInt(document.getElementById('mission1P').value);
+        const l = parseInt(document.getElementById('mission1L').value);
+        const fb = document.getElementById('fbMission1');
+        fb.style.display = "block";
+        if(2 * (p + l) === 40) {
+            fb.className = "feedback correct";
+            fb.innerHTML = "Misi 1 Berhasil!";
+        } else {
+            fb.className = "feedback wrong"; fb.innerHTML = "Salah, Kelilingnya " + (2*(p+l));
+        }
+    }
+
+    function checkMission2() {
+        const ans = parseInt(document.getElementById('mission2Ans').value);
+        const fb = document.getElementById('fbMission2');
+        fb.style.display = "block";
+        if(ans === valP * valL) {
+            fb.className = "feedback correct"; fb.innerHTML = "Tepat Sekali!";
+        } else {
+            fb.className = "feedback wrong"; fb.innerHTML = "Coba hitung lagi p x l.";
+        }
+    }
+
+    function checkMission3() {
+        const p = parseInt(document.getElementById('mission3P').value);
+        const l = parseInt(document.getElementById('mission3L').value);
+        const fb = document.getElementById('fbMission3');
+        fb.style.display = "block";
+        if((p*l) === (2*(p+l)) && p > 0) {
+            fb.className = "feedback correct"; fb.innerHTML = "Hebat! (Contoh: 4 & 4 atau 6 & 3)";
+        } else {
+            fb.className = "feedback wrong"; fb.innerHTML = "Belum pas. Cari p & l agar L=K.";
+        }
+    }
+
+    function checkMission4() {
+        const ans = parseInt(document.getElementById('mission4Ans').value);
+        const fb = document.getElementById('fbMission4');
+        fb.style.display = "block";
+        if(ans === 5) {
+            fb.className = "feedback correct"; fb.innerHTML = "Misi Selesai! (100 / 20 = 5)";
+        } else {
+            fb.className = "feedback wrong"; fb.innerHTML = "Salah, hitung 100 dibagi 20.";
+        }
+    }
+
+    window.onload = drawGeo;
+</script>
+</body>
+</html>
